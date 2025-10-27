@@ -64,6 +64,7 @@ void Game::Draw() // Draws all the elements in the game. This function is called
     {
         laser.Draw();
     }
+
     for (auto& obstacle: Obstacles)
     {
         obstacle.Draw();

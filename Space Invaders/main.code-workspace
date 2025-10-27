@@ -1,7 +1,13 @@
 {
 	"folders": [
 		{
-			"path": "../../VSCode Files"
+			"path": "."
+		},
+		{
+			"path": "../Project C++"
+		},
+		{
+			"path": "../OOP"
 		}
 	],
 	"settings": {

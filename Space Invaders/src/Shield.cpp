@@ -1,4 +1,5 @@
 #include "Shield.hpp"
+
 Shield::Shield(Vector2 position)
 {
     this -> position = position;

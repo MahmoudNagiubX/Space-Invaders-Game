@@ -34,8 +34,8 @@ Collect points for every enemy destroyed and survive as long as possible!
 
 | Action | Key |
 |--------|-----|
-| Move Left | ← or A |
-| Move Right | → or D |
+| Move Left | ← |
+| Move Right | → |
 | Shoot | Space |
 | Quit Game | Esc |
 

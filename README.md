@@ -32,6 +32,8 @@ The project was built as a hands-on exercise in the systems behind a real-time g
 
 Rather than placing all behavior in one file, the implementation separates the main responsibilities into classes for the game controller, spaceship, aliens, lasers, shields, obstacles, and mystery ship.
 
+---
+
 ## Gameplay
 
 The player starts with three lives and faces a formation of **75 aliens arranged in five rows and fifteen columns**. Each alien type awards a different score, enemy projectiles damage the player and the shields, and a mystery ship periodically crosses the top of the screen for a bonus opportunity.

@@ -1,59 +1,50 @@
-# 🚀 Space Invaders — C++ & Raylib
+# Space Invaders — Source Package
 
-A classic **Space Invaders** game recreated using **C++** and the **raylib** framework.  
-The player controls a spaceship to shoot down waves of aliens while avoiding enemy attacks — simple, fast, and fun!
+This directory contains the C++14 and raylib implementation of the game.
 
----
+For the complete project overview, gameplay details, architecture, controls, screenshots, engineering notes, and developer context, see the repository's [main README](../README.md).
 
-## 🎮 Game Description
+## Run Location
 
-This project is a modern recreation of the iconic **Space Invaders** arcade game.  
-It was built using **raylib**, a lightweight and easy-to-use C/C++ library for 2D and 3D game development.
+Build and run the executable from this directory because the application loads its resources through relative paths:
 
-### 🧩 Game Objective
-Destroy all invading enemies before they reach the bottom of the screen or hit your ship.  
-Collect points for every enemy destroyed and survive as long as possible!
+```text
+Font/
+Graphics/
+Sounds/
+highscore.txt
+```
 
----
+## Main Source Modules
 
-## ✨ Features
+```text
+src/
+├── main.cpp
+├── Game.cpp / Game.hpp
+├── SpaceShip.cpp / SpaceShip.hpp
+├── Alien.cpp / Alien.hpp
+├── Laser.cpp / Laser.hpp
+├── Obastacle.cpp / Obastacle.hpp
+├── Shield.cpp / Shield.hpp
+└── MysteryShip.cpp / MysteryShip.hpp
+```
 
-- 🛸 **Player spaceship** with smooth movement and shooting  
-- 👾 **Enemy invaders** arranged in waves  
-- 💥 **Projectile collisions** (player bullets destroy enemies)  
-- 💰 **Score system**  
-- 🔊 **Sound effects and background music**  
-- 🌄 **Custom background and sprite textures**  
-- ⏱️ **Game-over and restart system**
+The `ball.cpp` and `ball.h` files are retained from the original raylib starter-template workflow and are not part of the Space Invaders game flow.
 
-*(Optional extensions you can add later — rotating coins, funny death animations, or day/night cycle)*
+## Windows Build
 
----
+From a raylib-configured MinGW/w64devkit terminal:
 
-## 🕹️ Controls
-
-| Action | Key |
-|--------|-----|
-| Move Left | ← or A |
-| Move Right | → or D |
-| Shoot | Space |
-| Quit Game | Esc |
-
----
-
-## ⚙️ Requirements
-
-Before running the game, make sure you have:
-
-- **C++ compiler** (g++, clang, or MSVC)
-- **raylib library** (version 4.0 or later)
-
----
-
-## 🧱 Installation & Build
-
-### 1. Clone the repository
 ```bash
-git clone https://github.com/<your-username>/space-invaders-raylib.git
-cd space-invaders-raylib
+g++ -std=c++14 \
+  src/main.cpp src/Game.cpp src/SpaceShip.cpp src/Alien.cpp \
+  src/Laser.cpp src/Obastacle.cpp src/Shield.cpp src/MysteryShip.cpp \
+  -o SpaceInvaders.exe \
+  -lraylib -lopengl32 -lgdi32 -lwinmm
+```
 
+Then run:
+
+```bash
+./SpaceInvaders.exe
+```

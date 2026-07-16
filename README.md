@@ -1,58 +1,287 @@
-# 🚀 Space Invaders — C++ & Raylib
+<div align="center">
 
-A classic **Space Invaders** game recreated using **C++** and the **raylib** framework.  
-The player controls a spaceship to shoot down waves of aliens while avoiding enemy attacks — simple, fast, and fun!
+<img src="./Space%20Invaders/preview.jpg" alt="Space Invaders game built with C++ and raylib" width="900" />
 
----
+# Space Invaders — C++ & raylib
 
-## 🎮 Game Description
+### A desktop arcade-game recreation focused on object-oriented design, real-time gameplay systems, collision handling, and resource management
 
-This project is a modern recreation of the iconic **Space Invaders** arcade game.  
-It was built using **raylib**, a lightweight and easy-to-use C/C++ library for 2D and 3D game development.
+[![C++](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![raylib](https://img.shields.io/badge/raylib-5.0-000000)](https://www.raylib.com/)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#build-and-run)
+[![Style](https://img.shields.io/badge/design-Object--Oriented-6C63FF)](#software-design)
+[![Status](https://img.shields.io/badge/status-playable%20prototype-2ea44f)](#project-status)
 
-### 🧩 Game Objective
-Destroy all invading enemies before they reach the bottom of the screen or hit your ship.  
-Collect points for every enemy destroyed and survive as long as possible!
+**Control a spaceship, defend destructible shields, clear a 75-alien formation, hunt the mystery ship, and protect a persistent high score across game sessions.**
 
----
+[Gameplay](#gameplay) · [Architecture](#software-design) · [Build](#build-and-run) · [Developer](#developer)
 
-## ✨ Features
-
-- 🛸 **Player spaceship** with smooth movement and shooting  
-- 👾 **Enemy invaders** arranged in waves  
-- 💥 **Projectile collisions** (player bullets destroy enemies)  
-- 💰 **Score system**  
-- 🔊 **Sound effects and background music**  
-- 🌄 **Custom background and sprite textures**  
-- ⏱️ **Game-over and restart system**
-
-*(Optional extensions you can add later — rotating coins, funny death animations, or day/night cycle)*
+</div>
 
 ---
 
-## 🕹️ Controls
+## Project Overview
 
-| Action | Key |
-|--------|-----|
-| Move Left | ← |
-| Move Right | → |
-| Shoot | Space |
-| Quit Game | Esc |
+This repository contains a playable **Space Invaders-inspired desktop game** implemented with **C++14** and **raylib 5.0**.
 
----
+The project was built as a hands-on exercise in the systems behind a real-time game: input processing, update/render separation, entity behavior, projectile lifecycles, collision detection, audio, game-state transitions, score persistence, and texture ownership.
 
-## ⚙️ Requirements
+Rather than placing all behavior in one file, the implementation separates the main responsibilities into classes for the game controller, spaceship, aliens, lasers, shields, obstacles, and mystery ship.
 
-Before running the game, make sure you have:
+## Gameplay
 
-- **C++ compiler** (g++, clang, or MSVC)
-- **raylib library** (version 4.0 or later)
+The player starts with three lives and faces a formation of **75 aliens arranged in five rows and fifteen columns**. Each alien type awards a different score, enemy projectiles damage the player and the shields, and a mystery ship periodically crosses the top of the screen for a bonus opportunity.
 
----
+The match ends when:
 
-## 🧱 Installation & Build
+- Every alien is destroyed — **you win**.
+- The player loses all lives — **game over**.
+- An alien collides with the spaceship — **game over**.
 
-### 1. Clone the repository
+After a win or loss, press `Enter` to reset the entities and start a new match.
+
+### Controls
+
+| Input | Action |
+|---|---|
+| `Left Arrow` | Move left |
+| `Right Arrow` | Move right |
+| `Up Arrow` | Move up |
+| `Down Arrow` | Move down |
+| `Space` | Fire laser |
+| `Enter` | Restart after winning or losing |
+| `Esc` | Close the game window |
+
+## Core Systems
+
+| System | Implementation |
+|---|---|
+| **Game loop** | Raylib update-and-render loop running at a target of 144 FPS |
+| **Game states** | Welcome sequence, active match, win state, game-over state, and restart flow |
+| **Player controller** | Four-direction movement, screen boundaries, firing cooldown, lives, and reset behavior |
+| **Alien formation** | Three alien types, shared textures, horizontal formation movement, and randomized enemy fire |
+| **Projectiles** | Separate player and enemy laser collections with active/inactive lifecycle cleanup |
+| **Collision handling** | Lasers against aliens, mystery ship, shields, and player; aliens against player |
+| **Destructible defense** | Four obstacles generated from a `13 × 23` binary grid of individual shield cells |
+| **Scoring** | Alien-type scores, 500-point mystery ship bonus, and persistent high-score tracking |
+| **Audio and visuals** | Background music, laser/explosion sounds, sprites, custom font, and space background |
+| **Resource lifecycle** | Constructors load game resources and destructors release textures, music, and sounds |
+
+## Scoring
+
+| Target | Points |
+|---|---:|
+| Lower-row alien | 100 |
+| Middle-row alien | 200 |
+| Top-row alien | 300 |
+| Mystery ship | 500 |
+
+The highest score is saved to `highscore.txt` and loaded again when the game starts.
+
+## Software Design
+
+```mermaid
+classDiagram
+    class Game {
+      +Input()
+      +Update()
+      +Draw()
+      +Lives
+      +score
+      +HighScore
+    }
+
+    class SpaceShip {
+      +MoveLeft()
+      +MoveRight()
+      +MoveUp()
+      +MoveDown()
+      +FireLaser()
+      +Reset()
+    }
+
+    class Alien {
+      +Type
+      +position
+      +Update()
+      +draw()
+    }
+
+    class Laser {
+      +Active
+      +Update()
+      +Draw()
+    }
+
+    class Obstacle {
+      +shieldsVector
+      +Draw()
+    }
+
+    class Shield {
+      +draw()
+      +GetShieldRec()
+    }
+
+    class MysteryShip {
+      +Alive
+      +Spawn()
+      +Update()
+      +Draw()
+    }
+
+    Game *-- SpaceShip
+    Game *-- Alien
+    Game *-- Obstacle
+    Game *-- MysteryShip
+    SpaceShip *-- Laser
+    Game *-- Laser
+    Obstacle *-- Shield
+```
+
+### Responsibility Breakdown
+
+| Module | Responsibility |
+|---|---|
+| `main.cpp` | Window/audio initialization, welcome timer, main loop, HUD, and top-level rendering |
+| `Game` | Match state, entity collections, collisions, score, lives, win/loss logic, and high-score persistence |
+| `SpaceShip` | Player texture, movement boundaries, shooting cooldown, laser collection, and reset |
+| `Alien` | Alien type, shared texture loading, rendering, movement, and collision bounds |
+| `Laser` | Projectile movement, bounds checking, active state, drawing, and collision rectangle |
+| `Obstacle` | Converts a binary grid into destructible shield-cell objects |
+| `Shield` | Represents one destructible `3 × 3` defense cell |
+| `MysteryShip` | Random-side spawning, timed appearance, movement, bonus collision, and texture lifecycle |
+
+## Repository Structure
+
+```text
+Space-Invaders-Game/
+├── README.md
+└── Space Invaders/
+    ├── src/
+    │   ├── main.cpp
+    │   ├── Game.cpp / Game.hpp
+    │   ├── SpaceShip.cpp / SpaceShip.hpp
+    │   ├── Alien.cpp / Alien.hpp
+    │   ├── Laser.cpp / Laser.hpp
+    │   ├── Obastacle.cpp / Obastacle.hpp
+    │   ├── Shield.cpp / Shield.hpp
+    │   ├── MysteryShip.cpp / MysteryShip.hpp
+    │   └── ball.cpp / ball.h          # Starter-template sample; not part of the game flow
+    ├── Font/
+    ├── Graphics/
+    ├── Sounds/
+    ├── highscore.txt
+    ├── preview.jpg
+    ├── Makefile
+    ├── main.code-workspace
+    └── README.md
+```
+
+> The filename `Obastacle` is preserved because it is the name currently used by the source includes. It represents the game's obstacle/shield system.
+
+## Build and Run
+
+### Requirements
+
+- Windows 10 or later for the documented desktop workflow.
+- A C++14-compatible compiler.
+- raylib 5.0 or a compatible installation.
+- Git.
+
+### Clone
+
 ```bash
-git clone https://github.com/<your-username>/space-invaders-raylib.git
-cd space-invaders-raylib
+git clone https://github.com/MahmoudNagiubX/Space-Invaders-Game.git
+cd Space-Invaders-Game/"Space Invaders"
+```
+
+### Build with g++ on Windows
+
+Run the following command from the `Space Invaders` directory in a raylib-configured MinGW/w64devkit terminal:
+
+```bash
+g++ -std=c++14 \
+  src/main.cpp \
+  src/Game.cpp \
+  src/SpaceShip.cpp \
+  src/Alien.cpp \
+  src/Laser.cpp \
+  src/Obastacle.cpp \
+  src/Shield.cpp \
+  src/MysteryShip.cpp \
+  -o SpaceInvaders.exe \
+  -lraylib -lopengl32 -lgdi32 -lwinmm
+```
+
+Then run:
+
+```bash
+./SpaceInvaders.exe
+```
+
+> [!IMPORTANT]
+> Run the executable from the `Space Invaders` directory. The game loads `Graphics/`, `Sounds/`, `Font/`, and `highscore.txt` through relative paths.
+
+### VS Code Workflow
+
+The repository includes `main.code-workspace` and was developed from a raylib C++ VS Code starter workflow. Open the workspace only after confirming its folder entries and compiler paths match your local environment.
+
+### Makefile Note
+
+The included Makefile is inherited from the raylib starter template and still contains the original C-oriented source defaults. The explicit C++ command above reflects the game's current source files more accurately.
+
+## Project Status
+
+The current repository is a **playable learning and portfolio project**. It demonstrates the complete gameplay loop, but it is not packaged as a production release and does not currently include automated tests or CI.
+
+### Engineering Improvements I Would Make Next
+
+- Convert movement to delta-time-based updates for frame-rate-independent behavior.
+- Introduce configurable difficulty, alien descent, and multiple levels or waves.
+- Replace hard-coded dimensions and timing values with centralized configuration.
+- Add CMake for reproducible cross-platform builds.
+- Add deterministic tests for scoring, collisions, restart behavior, and high-score persistence.
+- Remove unused starter files and machine-specific workspace references.
+- Package a clean Windows release instead of committing development executables.
+- Replace or properly license all third-party audio, font, and visual assets before redistribution.
+
+## What This Project Demonstrates
+
+- Object-oriented C++ design.
+- Real-time update/render loops.
+- Entity and projectile lifecycle management.
+- Collision detection across multiple entity types.
+- Persistent local state using file I/O.
+- Resource loading and cleanup with raylib.
+- Debugging interactions between gameplay systems.
+- Turning a starter workflow into a complete interactive application.
+
+## Developer
+
+### Mahmoud Nagiub
+
+I am a Software Engineering student building practical projects across software engineering, AI, and systems development. This project strengthened my foundation in **C++**, object-oriented design, real-time application flow, collision systems, state management, resource ownership, and debugging behavior that emerges when multiple systems run every frame.
+
+- GitHub: [@MahmoudNagiubX](https://github.com/MahmoudNagiubX)
+- LinkedIn: [Mahmoud Nagiub](https://www.linkedin.com/in/mahmoudnagiubb/)
+
+## Credits and Asset Notes
+
+The repository was developed using a **raylib C++ Visual Studio Code starter-template workflow** whose original project documentation credits **educ8s**. raylib is maintained by its respective contributors.
+
+Space Invaders is an established arcade-game concept. This repository is an educational recreation and is not affiliated with the original rights holders.
+
+The repository includes third-party-style music, font, graphics, and sound files. Their redistribution rights are not documented in this repository and should be verified before publishing a downloadable release or using the project commercially.
+
+## License Status
+
+No project-level open-source license is currently included. Source availability on GitHub does not by itself grant permission to reuse, modify, or redistribute the project or its bundled assets.
+
+---
+
+<div align="center">
+
+**Built to understand the systems behind an arcade game—not only to reproduce the screen.** 👾
+
+</div>

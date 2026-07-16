@@ -5,13 +5,18 @@
 
 [![C++](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
 [![raylib](https://img.shields.io/badge/raylib-5.0-000000)](https://www.raylib.com/)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#build-and-run)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#download-and-play)
 [![Style](https://img.shields.io/badge/design-Object--Oriented-6C63FF)](#software-design)
-[![Status](https://img.shields.io/badge/status-playable%20prototype-2ea44f)](#project-status)
+[![Release](https://img.shields.io/badge/release-v1.0.0-2ea44f)](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/tag/v1.0.0)
+[![Status](https://img.shields.io/badge/status-playable%20demo-orange)](#project-status)
 
 **Control a spaceship, defend destructible shields, clear a 75 alien formation, hunt the mystery ship, and protect a persistent high score across game sessions.**
 
-[Gameplay](#gameplay) · [Architecture](#software-design) · [Build](#build-and-run) · [Developer](#developer)
+[Download Windows Demo](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/download/v1.0.0/Space-Invaders-Windows-v1.0.0.zip)
+·
+[Release Notes](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/tag/v1.0.0)
+·
+[Browse Source](./Space%20Invaders/src)
 
 </div>
 
@@ -157,6 +162,7 @@ classDiagram
 
 ```text
 Space-Invaders-Game/
+├── .github/workflows/release.yml
 ├── README.md
 └── Space Invaders/
     ├── src/
@@ -179,6 +185,18 @@ Space-Invaders-Game/
 ```
 
 > The filename `Obastacle` is preserved because it is the name currently used by the source includes. It represents the game's obstacle/shield system.
+
+## Download and Play
+
+1. Download [`Space-Invaders-Windows-v1.0.0.zip`](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/download/v1.0.0/Space-Invaders-Windows-v1.0.0.zip).
+2. Extract the complete ZIP archive.
+3. Open the extracted folder.
+4. Run `SpaceInvaders.exe`.
+
+> [!IMPORTANT]
+> Keep `SpaceInvaders.exe`, the available runtime DLL files, `Graphics/`, `Sounds/`, `Font/`, and `highscore.txt` together. The game loads resources using relative paths.
+
+The downloadable package is provided as an educational Windows demo. See [Credits and Asset Notes](#credits-and-asset-notes) before redistributing it.
 
 ## Build and Run
 
@@ -233,7 +251,7 @@ The included Makefile is inherited from the raylib starter template and still co
 
 ## Project Status
 
-The current repository is a **playable learning and portfolio project**. It demonstrates the complete gameplay loop, but it is not packaged as a production release and does not currently include automated tests or CI.
+The current repository is a **playable learning and portfolio project** with a packaged Windows demo available through GitHub Releases. The source demonstrates a complete gameplay loop, although the project does not currently include automated tests or CI-based source builds.
 
 ### Engineering Improvements I Would Make Next
 
@@ -243,7 +261,7 @@ The current repository is a **playable learning and portfolio project**. It demo
 - Add CMake for reproducible cross-platform builds.
 - Add deterministic tests for scoring, collisions, restart behavior, and high-score persistence.
 - Remove unused starter files and machine-specific workspace references.
-- Package a clean Windows release instead of committing development executables.
+- Build release binaries from source in CI instead of packaging a committed executable.
 - Replace or properly license all third-party audio, font, and visual assets before redistribution.
 
 ## What This Project Demonstrates
@@ -256,6 +274,7 @@ The current repository is a **playable learning and portfolio project**. It demo
 - Resource loading and cleanup with raylib.
 - Debugging interactions between gameplay systems.
 - Turning a starter workflow into a complete interactive application.
+- Packaging a runnable Windows demo through GitHub Releases.
 
 ## Developer
 
@@ -272,7 +291,7 @@ The repository was developed using a **raylib C++ Visual Studio Code starter-tem
 
 Space Invaders is an established arcade-game concept. This repository is an educational recreation and is not affiliated with the original rights holders.
 
-The repository includes third-party-style music, font, graphics, and sound files. Their redistribution rights are not documented in this repository and should be verified before publishing a downloadable release or using the project commercially.
+The repository includes third-party-style music, font, graphics, and sound files. Their redistribution rights are not documented in this repository and should be verified before publishing or redistributing the demo commercially.
 
 ## License Status
 

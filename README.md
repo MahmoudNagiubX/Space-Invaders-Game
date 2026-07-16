@@ -1,10 +1,7 @@
 <div align="center">
 
-<img src="./Space%20Invaders/Graphics/Screenshot%202024-12-20%20223705.png" alt="Space Invaders game built with C++ and raylib" width="900" />
-
-# Space Invaders — C++ & raylib
-
-### A desktop arcade-game recreation focused on object-oriented design, real-time gameplay systems, collision handling, and resource management
+# Space Invaders
+### A desktop arcade game recreation focused on object oriented design, real time gameplay systems, collision handling, and resource management
 
 [![C++](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
 [![raylib](https://img.shields.io/badge/raylib-5.0-000000)](https://www.raylib.com/)
@@ -12,11 +9,15 @@
 [![Style](https://img.shields.io/badge/design-Object--Oriented-6C63FF)](#software-design)
 [![Status](https://img.shields.io/badge/status-playable%20prototype-2ea44f)](#project-status)
 
-**Control a spaceship, defend destructible shields, clear a 75-alien formation, hunt the mystery ship, and protect a persistent high score across game sessions.**
+**Control a spaceship, defend destructible shields, clear a 75 alien formation, hunt the mystery ship, and protect a persistent high score across game sessions.**
 
 [Gameplay](#gameplay) · [Architecture](#software-design) · [Build](#build-and-run) · [Developer](#developer)
 
 </div>
+
+---
+
+<img src="./Space%20Invaders/Graphics/Screenshot%202024-12-20%20223705.png" alt="Space Invaders game built with C++ and raylib" width="1080" />
 
 ---
 

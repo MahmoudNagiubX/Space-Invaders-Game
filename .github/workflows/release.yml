@@ -1,3 +1,4 @@
+# Packages the existing Windows build and publishes it as a GitHub Release.
 name: Publish Windows Demo
 
 on:

@@ -1,0 +1,161 @@
+name: Publish Windows Demo
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/release.yml
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release tag using semantic versioning, for example v1.1.0
+        required: true
+        default: v1.0.0
+
+permissions:
+  contents: write
+
+jobs:
+  package-and-release:
+    name: Package and publish Windows demo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Resolve release version
+        id: version
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            VERSION="${{ inputs.version }}"
+          else
+            VERSION="v1.0.0"
+          fi
+
+          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Version must use semantic versioning, for example v1.1.0."
+            exit 1
+          fi
+
+          echo "value=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build portable Windows package
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ steps.version.outputs.value }}"
+          GAME_DIR="Space Invaders"
+          PACKAGE_DIR="Space-Invaders-Windows-$VERSION"
+          ASSET_NAME="$PACKAGE_DIR.zip"
+
+          if [ -f "$GAME_DIR/main.exe" ]; then
+            EXECUTABLE="$GAME_DIR/main.exe"
+          elif [ -f "$GAME_DIR/SpaceShip.exe" ]; then
+            EXECUTABLE="$GAME_DIR/SpaceShip.exe"
+          else
+            echo "No Windows executable was found in $GAME_DIR."
+            exit 1
+          fi
+
+          test -d "$GAME_DIR/Graphics"
+          test -d "$GAME_DIR/Sounds"
+          test -d "$GAME_DIR/Font"
+
+          mkdir -p "$PACKAGE_DIR"
+          cp "$EXECUTABLE" "$PACKAGE_DIR/SpaceInvaders.exe"
+          cp -R "$GAME_DIR/Graphics" "$PACKAGE_DIR/Graphics"
+          cp -R "$GAME_DIR/Sounds" "$PACKAGE_DIR/Sounds"
+          cp -R "$GAME_DIR/Font" "$PACKAGE_DIR/Font"
+
+          # Start every downloaded demo with a clean local high score.
+          printf '0\n' > "$PACKAGE_DIR/highscore.txt"
+
+          find "$GAME_DIR" -maxdepth 1 -type f -iname '*.dll' -exec cp {} "$PACKAGE_DIR/" \;
+
+          cat > "$PACKAGE_DIR/README.txt" <<'EOF'
+          SPACE INVADERS — WINDOWS DEMO
+
+          How to run:
+          1. Extract the complete ZIP archive.
+          2. Keep SpaceInvaders.exe, the Graphics, Sounds, and Font folders,
+             highscore.txt, and any included DLL files together.
+          3. Run SpaceInvaders.exe.
+
+          Controls:
+          Left Arrow   Move left
+          Right Arrow  Move right
+          Up Arrow     Move up
+          Down Arrow   Move down
+          Space        Fire laser
+          Enter        Restart after winning or losing
+          Escape       Close the game
+
+          This is an educational portfolio demo built with C++14 and raylib.
+
+          Repository:
+          https://github.com/MahmoudNagiubX/Space-Invaders-Game
+          EOF
+
+          zip -r "$ASSET_NAME" "$PACKAGE_DIR"
+          echo "asset=$ASSET_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Prepare release notes
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.version.outputs.value }}"
+
+          cat > release-notes.md <<EOF
+          ## Space Invaders $VERSION — Windows Demo
+
+          A playable Windows build of the Space Invaders-inspired arcade project developed with **C++14** and **raylib 5.0**.
+
+          ### Included
+          - Four-direction spaceship movement and laser firing
+          - A 75-alien formation with three scoring tiers
+          - Randomized enemy fire and a timed mystery ship
+          - Destructible shields, three lives, win/game-over states, and restart flow
+          - Persistent local high-score storage
+          - Required graphics, sounds, font files, and available runtime DLLs
+
+          ### Run the game
+          1. Download the attached ZIP file.
+          2. Extract the complete archive.
+          3. Run \`SpaceInvaders.exe\`.
+
+          Keep the executable, resource folders, \`highscore.txt\`, and DLL files together.
+
+          > Educational portfolio demo. Review the repository's asset and license notes before redistributing it.
+          EOF
+
+      - name: Create or update GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="${{ steps.version.outputs.value }}"
+          ASSET="${{ steps.package.outputs.asset }}"
+          TITLE="Space Invaders $VERSION — Windows Demo"
+
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            gh release upload "$VERSION" "$ASSET" --clobber
+            gh release edit "$VERSION" \
+              --title "$TITLE" \
+              --notes-file release-notes.md \
+              --latest
+          else
+            gh release create "$VERSION" "$ASSET" \
+              --target "$GITHUB_SHA" \
+              --title "$TITLE" \
+              --notes-file release-notes.md \
+              --latest
+          fi

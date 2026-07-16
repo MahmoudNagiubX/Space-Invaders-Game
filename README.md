@@ -1,6 +1,6 @@
 <div align="center">
 
-# Space Invaders
+# 👾 Space Invaders
 ### A desktop arcade game recreation focused on object oriented design, real time gameplay systems, collision handling, and resource management
 
 [![C++](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
@@ -24,7 +24,7 @@
 
 ---
 
-## Project Overview
+## 🎯 Project Overview
 
 This repository contains a playable **Space Invaders-inspired desktop game** implemented with **C++14** and **raylib 5.0**.
 
@@ -34,7 +34,7 @@ Rather than placing all behavior in one file, the implementation separates the m
 
 ---
 
-## Gameplay
+## 🎮 Gameplay
 
 The player starts with three lives and faces a formation of **75 aliens arranged in five rows and fifteen columns**. Each alien type awards a different score, enemy projectiles damage the player and the shields, and a mystery ship periodically crosses the top of the screen for a bonus opportunity.
 
@@ -46,7 +46,7 @@ The match ends when:
 
 After a win or loss, press `Enter` to reset the entities and start a new match.
 
-### Controls
+### ⌨️ Controls
 
 | Input | Action |
 |---|---|
@@ -58,7 +58,7 @@ After a win or loss, press `Enter` to reset the entities and start a new match.
 | `Enter` | Restart after winning or losing |
 | `Esc` | Close the game window |
 
-## Core Systems
+## ⚙️ Core Systems
 
 | System | Implementation |
 |---|---|
@@ -73,7 +73,7 @@ After a win or loss, press `Enter` to reset the entities and start a new match.
 | **Audio and visuals** | Background music, laser/explosion sounds, sprites, custom font, and space background |
 | **Resource lifecycle** | Constructors load game resources and destructors release textures, music, and sounds |
 
-## Scoring
+## 🏆 Scoring
 
 | Target | Points |
 |---|---:|
@@ -84,7 +84,7 @@ After a win or loss, press `Enter` to reset the entities and start a new match.
 
 The highest score is saved to `highscore.txt` and loaded again when the game starts.
 
-## Software Design
+## 🏗️ Software Design
 
 ```mermaid
 classDiagram
@@ -145,7 +145,7 @@ classDiagram
     Obstacle *-- Shield
 ```
 
-### Responsibility Breakdown
+### 🧩 Responsibility Breakdown
 
 | Module | Responsibility |
 |---|---|
@@ -158,7 +158,7 @@ classDiagram
 | `Shield` | Represents one destructible `3 × 3` defense cell |
 | `MysteryShip` | Random-side spawning, timed appearance, movement, bonus collision, and texture lifecycle |
 
-## Repository Structure
+## 📁 Repository Structure
 
 ```text
 Space-Invaders-Game/
@@ -186,7 +186,7 @@ Space-Invaders-Game/
 
 > The filename `Obastacle` is preserved because it is the name currently used by the source includes. It represents the game's obstacle/shield system.
 
-## Publish and Download
+## 📦 Publish and Download
 
 The repository includes a GitHub Actions workflow that packages the existing Windows build with its graphics, sounds, font, runtime DLLs, clean high-score file, and play instructions.
 
@@ -212,23 +212,23 @@ To play:
 
 The downloadable package is intended as an educational Windows demo. See [Credits and Asset Notes](#credits-and-asset-notes) before redistributing it.
 
-## Build and Run
+## 🔧 Build and Run
 
-### Requirements
+### ✅ Requirements
 
 - Windows 10 or later for the documented desktop workflow.
 - A C++14-compatible compiler.
 - raylib 5.0 or a compatible installation.
 - Git.
 
-### Clone
+### 📥 Clone
 
 ```bash
 git clone https://github.com/MahmoudNagiubX/Space-Invaders-Game.git
 cd Space-Invaders-Game/"Space Invaders"
 ```
 
-### Build with g++ on Windows
+### 🛠️ Build with g++ on Windows
 
 Run the following command from the `Space Invaders` directory in a raylib-configured MinGW/w64devkit terminal:
 
@@ -255,19 +255,19 @@ Then run:
 > [!IMPORTANT]
 > Run the executable from the `Space Invaders` directory. The game loads `Graphics/`, `Sounds/`, `Font/`, and `highscore.txt` through relative paths.
 
-### VS Code Workflow
+### 💻 VS Code Workflow
 
 The repository includes `main.code-workspace` and was developed from a raylib C++ VS Code starter workflow. Open the workspace only after confirming its folder entries and compiler paths match your local environment.
 
-### Makefile Note
+### 📝 Makefile Note
 
 The included Makefile is inherited from the raylib starter template and still contains the original C-oriented source defaults. The explicit C++ command above reflects the game's current source files more accurately.
 
-## Project Status
+## 📌 Project Status
 
 The current repository is a **playable learning and portfolio project** with Windows release automation configured through GitHub Actions. The source demonstrates a complete gameplay loop, although the project does not currently include automated gameplay tests or CI-based source compilation.
 
-### Engineering Improvements I Would Make Next
+### 🚀 Engineering Improvements I Would Make Next
 
 - Convert movement to delta-time-based updates for frame-rate-independent behavior.
 - Introduce configurable difficulty, alien descent, and multiple levels or waves.
@@ -278,7 +278,7 @@ The current repository is a **playable learning and portfolio project** with Win
 - Build release binaries from source in CI instead of packaging a committed executable.
 - Replace or properly license all third-party audio, font, and visual assets before redistribution.
 
-## What This Project Demonstrates
+## 💡 What This Project Demonstrates
 
 - Object-oriented C++ design.
 - Real-time update/render loops.
@@ -290,7 +290,7 @@ The current repository is a **playable learning and portfolio project** with Win
 - Turning a starter workflow into a complete interactive application.
 - Automating a portable Windows package and GitHub Release workflow.
 
-## Developer
+## 👨‍💻 Developer
 
 ### Mahmoud Nagiub
 

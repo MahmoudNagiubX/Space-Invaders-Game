@@ -1,0 +1,70 @@
+name: Apply README Emoji Styling
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/emoji-readme.yml
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Add restrained emoji hierarchy
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("README.md")
+          text = path.read_text(encoding="utf-8")
+          replacements = {
+              "# Space Invaders": "# 👾 Space Invaders",
+              "## Project Overview": "## 🎯 Project Overview",
+              "## Gameplay": "## 🎮 Gameplay",
+              "### Controls": "### ⌨️ Controls",
+              "## Core Systems": "## ⚙️ Core Systems",
+              "## Scoring": "## 🏆 Scoring",
+              "## Software Design": "## 🏗️ Software Design",
+              "### Responsibility Breakdown": "### 🧩 Responsibility Breakdown",
+              "## Repository Structure": "## 📁 Repository Structure",
+              "## Publish and Download": "## 📦 Publish and Download",
+              "## Build and Run": "## 🔧 Build and Run",
+              "### Requirements": "### ✅ Requirements",
+              "### Clone": "### 📥 Clone",
+              "### Build with g++ on Windows": "### 🛠️ Build with g++ on Windows",
+              "### VS Code Workflow": "### 💻 VS Code Workflow",
+              "### Makefile Note": "### 📝 Makefile Note",
+              "## Project Status": "## 📌 Project Status",
+              "### Engineering Improvements I Would Make Next": "### 🚀 Engineering Improvements I Would Make Next",
+              "## What This Project Demonstrates": "## 💡 What This Project Demonstrates",
+              "## Developer": "## 👨‍💻 Developer",
+          }
+
+          for old, new in replacements.items():
+              if new not in text:
+                  text = text.replace(old, new)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Remove temporary workflow and commit
+        shell: bash
+        run: |
+          rm .github/workflows/emoji-readme.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md .github/workflows/emoji-readme.yml
+          git commit -m "docs: add elegant emoji section hierarchy"
+          git push origin main

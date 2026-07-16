@@ -299,18 +299,6 @@ I am a Software Engineering student building practical projects across software 
 - GitHub: [@MahmoudNagiubX](https://github.com/MahmoudNagiubX)
 - LinkedIn: [Mahmoud Nagiub](https://www.linkedin.com/in/mahmoudnagiubb/)
 
-## Credits and Asset Notes
-
-The repository was developed using a **raylib C++ Visual Studio Code starter-template workflow** whose original project documentation credits **educ8s**. raylib is maintained by its respective contributors.
-
-Space Invaders is an established arcade-game concept. This repository is an educational recreation and is not affiliated with the original rights holders.
-
-The repository includes third-party-style music, font, graphics, and sound files. Their redistribution rights are not documented in this repository and should be verified before publishing or redistributing the demo commercially.
-
-## License Status
-
-No project-level open-source license is currently included. Source availability on GitHub does not by itself grant permission to reuse, modify, or redistribute the project or its bundled assets.
-
 ---
 
 <div align="center">

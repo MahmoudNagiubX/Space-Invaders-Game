@@ -5,6 +5,9 @@ on:
   schedule:
     # Temporary bootstrap trigger. Remove after v1.0.0 is published.
     - cron: "*/5 * * * *"
+  issues:
+    types:
+      - opened
   push:
     branches:
       - main
@@ -22,6 +25,7 @@ permissions:
 
 jobs:
   package-and-release:
+    if: github.event_name != 'issues' || github.event.issue.title == 'Publish v1.0.0 Windows Demo'
     name: Package and publish Windows demo
     runs-on: ubuntu-latest
 

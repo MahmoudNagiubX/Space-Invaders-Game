@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./Space%20Invaders/preview.jpg" alt="Space Invaders game built with C++ and raylib" width="900" />
+<img src="./Space%20Invaders/Graphics/Screenshot%202024-12-20%20223705.png" alt="Space Invaders game built with C++ and raylib" width="900" />
 
 # Space Invaders — C++ & raylib
 
@@ -172,7 +172,6 @@ Space-Invaders-Game/
     ├── Graphics/
     ├── Sounds/
     ├── highscore.txt
-    ├── preview.jpg
     ├── Makefile
     ├── main.code-workspace
     └── README.md

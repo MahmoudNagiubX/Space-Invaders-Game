@@ -2,6 +2,9 @@
 name: Publish Windows Demo
 
 on:
+  schedule:
+    # Temporary bootstrap trigger. Remove after v1.0.0 is published.
+    - cron: "*/5 * * * *"
   push:
     branches:
       - main

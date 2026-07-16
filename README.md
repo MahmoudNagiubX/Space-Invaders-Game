@@ -5,16 +5,14 @@
 
 [![C++](https://img.shields.io/badge/C%2B%2B-14-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
 [![raylib](https://img.shields.io/badge/raylib-5.0-000000)](https://www.raylib.com/)
-[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#download-and-play)
+[![Platform](https://img.shields.io/badge/platform-Windows-0078D6?logo=windows&logoColor=white)](#publish-and-download)
 [![Style](https://img.shields.io/badge/design-Object--Oriented-6C63FF)](#software-design)
-[![Release](https://img.shields.io/badge/release-v1.0.0-2ea44f)](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/tag/v1.0.0)
-[![Status](https://img.shields.io/badge/status-playable%20demo-orange)](#project-status)
+[![Release Workflow](https://img.shields.io/badge/release-workflow%20ready-2ea44f)](https://github.com/MahmoudNagiubX/Space-Invaders-Game/actions/workflows/release.yml)
+[![Status](https://img.shields.io/badge/status-release%20ready-orange)](#project-status)
 
 **Control a spaceship, defend destructible shields, clear a 75 alien formation, hunt the mystery ship, and protect a persistent high score across game sessions.**
 
-[Download Windows Demo](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/download/v1.0.0/Space-Invaders-Windows-v1.0.0.zip)
-·
-[Release Notes](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/tag/v1.0.0)
+[Publish Windows Demo](https://github.com/MahmoudNagiubX/Space-Invaders-Game/actions/workflows/release.yml)
 ·
 [Browse Source](./Space%20Invaders/src)
 
@@ -186,17 +184,31 @@ Space-Invaders-Game/
 
 > The filename `Obastacle` is preserved because it is the name currently used by the source includes. It represents the game's obstacle/shield system.
 
-## Download and Play
+## Publish and Download
 
-1. Download [`Space-Invaders-Windows-v1.0.0.zip`](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/download/v1.0.0/Space-Invaders-Windows-v1.0.0.zip).
-2. Extract the complete ZIP archive.
-3. Open the extracted folder.
-4. Run `SpaceInvaders.exe`.
+The repository includes a GitHub Actions workflow that packages the existing Windows build with its graphics, sounds, font, runtime DLLs, clean high-score file, and play instructions.
+
+To publish the first release:
+
+1. Open **Actions** in the repository.
+2. Select **Publish Windows Demo**.
+3. Choose **Run workflow**.
+4. Keep the version as `v1.0.0` and start the run.
+
+After the workflow succeeds, the playable package will be available as:
+
+[`Space-Invaders-Windows-v1.0.0.zip`](https://github.com/MahmoudNagiubX/Space-Invaders-Game/releases/download/v1.0.0/Space-Invaders-Windows-v1.0.0.zip)
+
+To play:
+
+1. Extract the complete ZIP archive.
+2. Open the extracted folder.
+3. Run `SpaceInvaders.exe`.
 
 > [!IMPORTANT]
 > Keep `SpaceInvaders.exe`, the available runtime DLL files, `Graphics/`, `Sounds/`, `Font/`, and `highscore.txt` together. The game loads resources using relative paths.
 
-The downloadable package is provided as an educational Windows demo. See [Credits and Asset Notes](#credits-and-asset-notes) before redistributing it.
+The downloadable package is intended as an educational Windows demo. See [Credits and Asset Notes](#credits-and-asset-notes) before redistributing it.
 
 ## Build and Run
 
@@ -251,7 +263,7 @@ The included Makefile is inherited from the raylib starter template and still co
 
 ## Project Status
 
-The current repository is a **playable learning and portfolio project** with a packaged Windows demo available through GitHub Releases. The source demonstrates a complete gameplay loop, although the project does not currently include automated tests or CI-based source builds.
+The current repository is a **playable learning and portfolio project** with Windows release automation configured through GitHub Actions. The source demonstrates a complete gameplay loop, although the project does not currently include automated gameplay tests or CI-based source compilation.
 
 ### Engineering Improvements I Would Make Next
 
@@ -274,7 +286,7 @@ The current repository is a **playable learning and portfolio project** with a p
 - Resource loading and cleanup with raylib.
 - Debugging interactions between gameplay systems.
 - Turning a starter workflow into a complete interactive application.
-- Packaging a runnable Windows demo through GitHub Releases.
+- Automating a portable Windows package and GitHub Release workflow.
 
 ## Developer
 
